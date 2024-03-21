@@ -96,6 +96,7 @@ def initdb():
     res=create_db()
     return res
 
+
 #检索推荐功能
 @app.route('/search_recommend',methods=['POST'])
 def recommend():
