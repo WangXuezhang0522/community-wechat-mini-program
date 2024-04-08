@@ -66,19 +66,20 @@ def search_community_post_check(text):
         #     image = base64.b64encode(i.image).decode('utf-8')    
         # else:
         #     image = None
-        dict = {
-            'community_id':i.community_id,
-            'user_id':i.user_id,
-            'username':i.username,
-            'title':i.title,
-            'content':i.content,
-            'like':i.like,
-            # 'image':image,
-            'type':i.type,
-            'role':i.role,
-            'status':i.status
-            }
-        res.append(dict)
+        if i.status != '审核通过':
+            dict = {
+                'community_id':i.community_id,
+                'user_id':i.user_id,
+                'username':i.username,
+                'title':i.title,
+                'content':i.content,
+                'like':i.like,
+                # 'image':image,
+                'type':i.type,
+                'role':i.role,
+                'status':i.status
+                }
+            res.append(dict)
     return res
 
 

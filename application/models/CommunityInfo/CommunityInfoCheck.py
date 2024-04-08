@@ -59,17 +59,18 @@ def search_community_info_check(text):
         #     image = base64.b64encode(i.image).decode('utf-8')    
         # else:
         #     image = None
-        dict = {
-            'name':i.name,
-            'description':i.description,
-            # 'image':image,
-            'number':i.number,
-            'leader_name':i.leader_name,
-            'type':i.type,
-            'leader_id':i.leader_id,
-            'status':i.status
-        }
-        res.append(dict)
+        if i.status != '审核通过':
+            dict = {
+                'name':i.name,
+                'description':i.description,
+                # 'image':image,
+                'number':i.number,
+                'leader_name':i.leader_name,
+                'type':i.type,
+                'leader_id':i.leader_id,
+                'status':i.status
+            }
+            res.append(dict)
     return res
     
 #社团信息审核表更新

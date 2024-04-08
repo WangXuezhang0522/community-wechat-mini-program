@@ -113,7 +113,27 @@ def search_community_activity(page, per_page=5):
         result.append(item)
     # print(result[0])
     return result
-
+#社团活动表查询所有,不带图片
+def search_all_community_activity_noimage(text):
+    data = CommunityActivity.query.all()
+    list = []
+    for i in data:
+        list_dict={
+            'id':i.id,
+            'community_id':i.community_id,
+            'community_name':i.community_name,
+            'leader_id':i.leader_id,
+            'leader_name':i.leader_name,
+            'name':i.name,
+            'address':i.address,
+            'number':i.number,
+            'cost':i.cost,
+            'content':i.content,
+            'start_time': i.start_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_time': i.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+        }
+        list.append(list_dict)
+    return list
 
 #按活动名称查询社团活动
 def search_community_activity_by_name(text):

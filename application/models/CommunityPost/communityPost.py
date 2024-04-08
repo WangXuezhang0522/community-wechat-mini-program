@@ -112,6 +112,25 @@ def search_community_post(text,page=1,per_page=10):
         list.append(list_dict)
     return list
 
+#交流贴表查询所有不带图片
+def search_all_community_post_noimage(text):
+    data = CommunityPost.query.all()
+    list = []
+    for i in data:
+        dict = {
+            'id':i.id,
+            'community_id':i.community_id,
+            'user_id':i.user_id,
+            'username':i.username,
+            'title':i.title,
+            'content':i.content,
+            'like':i.like,
+            'type':i.type,
+            'role':i.role,
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        list.append(dict)
+    return list
 
 #交流贴表id查询
 def search_community_post_by_title(text):

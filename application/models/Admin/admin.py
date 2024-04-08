@@ -6,9 +6,13 @@ import base64
 
 #管理员表添加
 def add_admin(text):
-    audicodelist=['chongqing','sichuan','yunnan']
+    audicodelist=['chongqing','sichuan','yunnan','superadmin']
     if text['auditCode'] not in audicodelist:
-        return 'auditCode error'
+        return {'message':'auditCode error'}
+    #重复判断
+    data = Admin.query.filter_by(username=text['username']).first()
+    if data:
+        return {'message':'username repeat'}
     data = Admin(
                     username=text['username'],
                     password=text['password'],
@@ -18,11 +22,11 @@ def add_admin(text):
         db.session.add(data)
         db.session.commit()
         db.session.close()
-        return 'success'
+        return {'message':'success'}
     except:
         db.session.rollback()
         db.session.close()
-        return 'error'
+        return {'message':'errpr'}
     
 #管理员表删除
 def delete_admin(text):
@@ -39,19 +43,18 @@ def delete_admin(text):
     
 #管理员表查询
 def search_admin(text):
-    data = Admin.query.filter_by(username=text['username']).first()
+    data = Admin.query.filter_by(username=text['username'],password=text['password']).first()
     if data:
         dict = {
             'username':data.username,
             'password':data.password,
             'auditCode':data.auditCode
         }
-        return dict
+        return {'dict':dict,'message':"登录成功"}
     else:
-        return {'message':"没有该管理员"}
+        return {'message':"账号或密码错误"}
     
 
-    
 #管理员表更新
 def update_admin(text):
     data = Admin.query.filter_by(username=text['username']).first()

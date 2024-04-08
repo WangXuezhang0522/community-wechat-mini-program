@@ -16,11 +16,13 @@ from application.models import (add_community_info,
                             search_community_info_by_name,
                             search_community_leader_by_user_id,
                             search_community_info_by_number,
+                            search_all_community_info_noimage,
                             search_community_info_by_type)
 from application.models import (add_community_activity, 
                                 delete_community_activity,
                                   search_community_activity, 
                                   search_community_activity_by_name,
+                                  search_all_community_activity_noimage,
                                   update_community_activity)
 from application.models import (add_community_member, 
                               delete_community_member,
@@ -35,6 +37,7 @@ from application.models import (add_community_post,
                                  search_community_post_by_title,
                                 search_community_post_by_user_id,
                                 search_community_post_by_community_id,
+                                search_all_community_post_noimage,
                                  like_community_post)
 from application.models import (add_comment,
                                 delete_comment,
@@ -669,6 +672,28 @@ def searchcarousel():
 @app.route('/get_all_admin_and_user',methods=['POST'])
 def alladminanduser():
     res=get_all_admin_and_user()
+    return res
+
+
+#后台数据-活动
+@app.route('/search_all_community_activity_noimage',methods=['POST'])
+def allcommunityactivitynoimage():
+    text = request.form
+    res=search_all_community_activity_noimage(text)
+    return res
+
+#后台数据-社团
+@app.route('/search_all_community_info_noimage',methods=['POST'])
+def allcommunityinfonoimage():
+    text = request.form
+    res=search_all_community_info_noimage(text)
+    return res
+
+#后台数据-帖子
+@app.route('/search_all_community_post_noimage',methods=['POST'])
+def allcommunitypostnoimage():
+    text = request.form
+    res=search_all_community_post_noimage(text)
     return res
 
 if __name__ == '__main__':

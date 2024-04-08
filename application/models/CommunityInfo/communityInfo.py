@@ -114,6 +114,23 @@ def search_community_info():
     
     return list
 
+#所有社团信息不带图片
+def search_all_community_info_noimage(text):
+    data = CommunityInfo.query.all()
+    list = []
+    for i in data:
+        list_dict={
+            'id':i.id,
+            'name':i.name,
+            'introduction':i.description,
+            'number':i.number,
+            'type':i.type,
+            'leader_id':i.leader_id,
+            'leader_name':i.leader_name
+        }
+        list.append(list_dict)
+    return list
+
 #指定社团类型查询
 def search_community_info_by_type(text):
     data = CommunityInfo.query.filter_by(type=text['type']).all()

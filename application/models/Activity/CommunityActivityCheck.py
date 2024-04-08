@@ -65,23 +65,24 @@ def search_community_activity_check(text):
         #     image = base64.b64encode(i.image).decode('utf-8')    
         # else:
         #     image = None
-        dict = {
-            'id':i.id,
-            'community_id':i.community_id,
-            'community_name':i.community_name,
-            'leader_id':i.leader_id,
-            'leader_name':i.leader_name,
-            'name':i.name,
-            'address':i.address,
-            'number':i.number,
-            'cost':i.cost,
-            'content':i.content,
-            'start_time':i.start_time,
-            'end_time':i.end_time,
-            # 'image':image,
-            'status':i.status
-        }
-        res.append(dict)
+        if i.status != '审核通过':
+            dict = {
+                'id':i.id,
+                'community_id':i.community_id,
+                'community_name':i.community_name,
+                'leader_id':i.leader_id,
+                'leader_name':i.leader_name,
+                'name':i.name,
+                'address':i.address,
+                'number':i.number,
+                'cost':i.cost,
+                'content':i.content,
+                'start_time':i.start_time,
+                'end_time':i.end_time,
+                # 'image':image,
+                'status':i.status
+            }
+            res.append(dict)
     return res
 
 #社团活动审核表更新
