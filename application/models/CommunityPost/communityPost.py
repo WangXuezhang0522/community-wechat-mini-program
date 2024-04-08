@@ -74,11 +74,12 @@ def update_community_post(text):
         return 'error'
     
 #交流贴表查询
-def search_community_post(text):
-    data = CommunityPost.query.order_by(CommunityPost.time.desc()).all()
-    
+def search_community_post(text,page=1,per_page=10):
+    data = CommunityPost.query.filter_by(community_id=text['community_id']).order_by(CommunityPost.time.desc()).paginate(page=page, 
+                                                                            per_page=per_page,
+                                                                            error_out=False)
     list = []
-    for i in data:
+    for i in data.items:
         if i.image == None:
             image = None
         else:
@@ -104,41 +105,99 @@ def search_community_post(text):
             'image':image,
             'type':i.type,
             'role':i.role,
-            'time':i.time,
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S'),
             'commentCount':commentCount,
             'collectCount':collectCount
         }
         list.append(list_dict)
     return list
 
-#交流贴表标题查询
-def search_community_post_by_title(text):
-    data = CommunityPost.query.filter_by(title=text['title']).first()
-    user = User.query.filter_by(id=data.user_id).first()
-    if user.avatar == None:
-        avatar = None
-    else:
-        avatar = base64.b64encode(user.avatar).decode('utf-8')
-    if data.image == None:
-        image = None
-    else:
-        image = base64.b64encode(data.image).decode('utf-8')
 
-    list_dict = {
-        'id':data.id,
-        'community_id':data.community_id,
-        'user_id':data.user_id,
-        'username':data.username,
-        'avatar':avatar,
-        'title':data.title,
-        'content':data.content,
-        'like':data.like,
-        'image':image,
-        'type':data.type,
-        'role':data.role,
-        'time':data.time
-    }
-    return list_dict
+#交流贴表id查询
+def search_community_post_by_title(text):
+    try:
+        data = CommunityPost.query.filter_by(id=text['id']).first()
+        user = User.query.filter_by(id=data.user_id).first()
+        if user.avatar == None:
+            avatar = None
+        else:
+            avatar = base64.b64encode(user.avatar).decode('utf-8')
+        if data.image == None:
+            image = None
+        else:
+            image = base64.b64encode(data.image).decode('utf-8')
+
+        list_dict = {
+            'id':data.id,
+            'community_id':data.community_id,
+            'user_id':data.user_id,
+            'username':data.username,
+            'avatar':avatar,
+            'title':data.title,
+            'content':data.content,
+            'like':data.like,
+            'image':image,
+            'type':data.type,
+            'role':data.role,
+            'time':data.time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        #获取评论
+        comment_data = comment.query.filter_by(post_id=data.id).all()
+        comment_list = []
+        for i in comment_data:
+            user = User.query.filter_by(id=i.user_id).all()
+            for j in user:
+                if j.avatar == None:
+                    avatar = None
+                else:
+                    avatar = base64.b64encode(j.avatar).decode('utf-8')
+                dict = {
+                    'id':i.id,
+                    'user_id':i.user_id,
+                    'username':i.username,
+                    'avatar':avatar,
+                    'content':i.content,
+                    'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
+                }
+                comment_list.append(dict)
+        list_dict['comment'] = comment_list
+        return list_dict
+    except Exception as e:
+        return f'error:{e}'
+
+#根据社区id查询
+def search_community_post_by_community_id(text, page, per_page=5):
+    data = CommunityPost.query.filter_by(community_id=text['community_id']).order_by(
+        CommunityPost.time.desc()).paginate(
+            page=page, per_page=per_page,error_out = False)
+    list = []
+    for i in data.items:
+        if i.image == None:
+            image = None
+        else:
+            image = base64.b64encode(i.image).decode('utf-8')
+        user = User.query.filter_by(id=i.user_id).first()
+        if user.avatar == None:
+            avatar = None
+        else:
+            avatar = base64.b64encode(user.avatar).decode('utf-8')
+        list_dict = {
+            'id':i.id,
+            'community_id':i.community_id,
+            'user_id':i.user_id,
+            'username':i.username,
+            'avatar':avatar,
+            'title':i.title,
+            'content':i.content,
+            'like':i.like,
+            'image':image,
+            'type':i.type,
+            'role':i.role,
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        list.append(list_dict)
+    return list
+
 
 #指定user_id查询
 def search_community_post_by_user_id(text):
@@ -166,7 +225,7 @@ def search_community_post_by_user_id(text):
             'image':image,
             'type':i.type,
             'role':i.role,
-            'time':i.time
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
         }
         list.append(list_dict)
     return list

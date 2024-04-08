@@ -11,6 +11,8 @@ def add_community_member(text):
                         member_name=text['member_name'],
                         role=text['role']
                         )
+    #修改用户角色
+    
     try:
         db.session.add(data)
         db.session.commit()

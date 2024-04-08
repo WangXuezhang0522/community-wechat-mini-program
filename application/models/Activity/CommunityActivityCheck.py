@@ -56,13 +56,15 @@ def delete_community_activity_check(text):
         return 'error'  
 #社团活动审核表查询
 def search_community_activity_check(text):
-    data = CommunityActivityCheck.query.filter_by(community_id=text['community_id']).order_by(CommunityActivityCheck.check_time.desc()).all()
+    data = CommunityActivityCheck.query.filter_by(
+        community_id=text['community_id']).order_by(
+            CommunityActivityCheck.check_time.desc()).all()
     res = []
     for i in data:
-        if i.image is not None:
-            image = base64.b64encode(i.image).decode('utf-8')    
-        else:
-            image = None
+        # if i.image is not None:
+        #     image = base64.b64encode(i.image).decode('utf-8')    
+        # else:
+        #     image = None
         dict = {
             'id':i.id,
             'community_id':i.community_id,
@@ -76,11 +78,12 @@ def search_community_activity_check(text):
             'content':i.content,
             'start_time':i.start_time,
             'end_time':i.end_time,
-            'image':image,
+            # 'image':image,
             'status':i.status
         }
         res.append(dict)
     return res
+
 #社团活动审核表更新
 def update_community_activity_check(text):
     data = CommunityActivityCheck.query.filter_by(id=text['id']).first()

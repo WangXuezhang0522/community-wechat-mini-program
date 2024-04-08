@@ -79,19 +79,14 @@ def get_all_admin_and_user():
 
     userdata = User.query.all()
     userlist = []
-    for i in data:
-        if i.avatar is not None:
-            avatar = base64.b64encode(i.avatar).decode('utf-8')    
-        else:
-            avatar = None
+    for i in userdata:
         dict = {
             'id':i.id,
             'username':i.username,
             'password':i.password,
             'truename':i.truename,
             'sex':i.sex,
-            'tel':i.tel,
-            'avatar':avatar
+            'tel':i.tel
         }
         userlist.append(dict)
     return {'admin':list,'user':userlist}

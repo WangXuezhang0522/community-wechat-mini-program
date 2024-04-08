@@ -19,7 +19,7 @@ llm = ChatOpenAI(
 
 def extract_community_name(res:str):
     prompt = PromptTemplate(
-    template="分析出\n{res}\n中的第一个社团名称,例如'communityName:'羽毛球俱乐部','\n",
+    template="分析出\n{res}\n中的第一个社团名称,例如'communityName:'羽毛球俱乐部',禁止出现空格'\n",
     input_variables=["res"],
     )
     # Schema

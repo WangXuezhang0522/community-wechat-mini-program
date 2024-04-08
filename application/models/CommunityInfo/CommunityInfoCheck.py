@@ -55,14 +55,14 @@ def search_community_info_check(text):
     data = CommunityInfoCheck.query.filter_by().order_by(CommunityInfoCheck.check_time.desc()).all()
     res = []
     for i in data:
-        if i.image is not None:
-            image = base64.b64encode(i.image).decode('utf-8')    
-        else:
-            image = None
+        # if i.image is not None:
+        #     image = base64.b64encode(i.image).decode('utf-8')    
+        # else:
+        #     image = None
         dict = {
             'name':i.name,
             'description':i.description,
-            'image':image,
+            # 'image':image,
             'number':i.number,
             'leader_name':i.leader_name,
             'type':i.type,
@@ -74,7 +74,7 @@ def search_community_info_check(text):
     
 #社团信息审核表更新
 def update_community_info_check(text):
-    data = CommunityInfoCheck.query.filter_by(name=text['name']).first()
+    data = CommunityInfoCheck.query.filter_by(id=text['id']).first()
     data.status = text['status']
     if text['status'] == '审核通过':
         data_Info = CommunityInfo(

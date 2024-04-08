@@ -46,7 +46,7 @@ def search_comment(text):
             'content':i.content,
             'username':i.username,
             'like':i.like,
-            'time':i.time
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
             })
     return list
 

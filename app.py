@@ -14,7 +14,9 @@ from application.models import (add_community_info,
                             search_community_info, 
                             update_community_info,
                             search_community_info_by_name,
-                            search_community_leader_by_user_id)
+                            search_community_leader_by_user_id,
+                            search_community_info_by_number,
+                            search_community_info_by_type)
 from application.models import (add_community_activity, 
                                 delete_community_activity,
                                   search_community_activity, 
@@ -32,6 +34,7 @@ from application.models import (add_community_post,
                                  update_community_post,
                                  search_community_post_by_title,
                                 search_community_post_by_user_id,
+                                search_community_post_by_community_id,
                                  like_community_post)
 from application.models import (add_comment,
                                 delete_comment,
@@ -41,7 +44,9 @@ from application.models import (add_comment,
                                      comment_user_post)
 from application.models import (
     user_community_member,
-    communityinfo_communitypost_communityactivity
+    communityinfo_communitypost_communityactivity,
+    database_all_id,
+    communityinfo_activity_post_like_search
 )
 
 
@@ -96,6 +101,18 @@ def initdb():
     res=create_db()
     return res
 
+#用户表,社团信息表,社团活动表,社团帖子表,评论表idlist
+@app.route('/database_all_id',methods=['GET'])
+def databaseallid():
+    res=database_all_id()
+    return res
+
+#社团信息,社团活动,社团帖子模糊查询
+@app.route('/communityinfo_activity_post_like_search',methods=['POST'])
+def communityinfoactivitypostlikesearch():
+    text = request.form
+    res=communityinfo_activity_post_like_search(text)
+    return res
 
 #检索推荐功能
 @app.route('/search_recommend',methods=['POST'])
@@ -158,11 +175,26 @@ def searchcommunityinfo():
     res=search_community_info()
     return res
 
+
+#根据社团人数查询社团信息
+@app.route('/search_info_by_number',methods=['POST'])
+def searchcommunityinfobynumber():
+    text = request.form
+    res=search_community_info_by_number()
+    return res
+
 #按名称查询社团信息
 @app.route('/search_info_by_name',methods=['POST'])
 def searchcommunityinfobyname():
     text = request.form
     res=search_community_info_by_name(text)
+    return res
+
+#按类型查询社团信息
+@app.route('/search_info_by_type',methods=['POST'])
+def searchcommunityinfobytype():
+    text = request.form
+    res=search_community_info_by_type(text)
     return res
 
 #更新社团信息
@@ -190,7 +222,8 @@ def deletecommunityactivity():
 @app.route('/search_community_activity',methods=['POST'])
 def searchcommunityactivity():
     text = request.form
-    res=search_community_activity()
+    page = int(text['page'])
+    res=search_community_activity(page=page)
     return res
 
 #按名称查询社团活动
@@ -253,7 +286,16 @@ def deletecommunitypost():
 @app.route('/search_community_post',methods=['POST'])
 def searchcommunitypost():
     text = request.form
-    res=search_community_post(text)
+    page = int(text['page'])
+    res=search_community_post(text,page=page)
+    return res
+
+#按社团id查询社团帖子
+@app.route('/search_post_by_community_id',methods=['POST'])
+def searchcommunitypostbycommunityid():
+    text = request.form
+    page = int(text['page'])
+    res=search_community_post_by_community_id(text,page=page)
     return res
 
 #更新社团帖子
@@ -527,6 +569,7 @@ def deletecommunitypostcheck():
 @app.route('/search_community_post_check',methods=['POST'])
 def searchcommunitypostcheck():
     text = request.form
+    
     res=search_community_post_check(text)
     return res
 

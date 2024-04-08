@@ -73,6 +73,8 @@ def update_community_member_check(text):
                         member_name=data.member_name,
                         role=data.role
                          )
+        user = User.query.filter_by(id=text['member_id']).first()
+        user.role = "用户"
         try:
             db.session.add(data_Member)
             db.session.commit()

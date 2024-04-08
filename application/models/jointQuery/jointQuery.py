@@ -1,5 +1,4 @@
 from ..communityDB import db,User,CommunityInfo,CommunityMember,CommunityActivity,CommunityPost,comment
-import json
 import base64
 
 #联合查询
@@ -99,3 +98,78 @@ def communityinfo_communitypost_communityactivity(text):
         dict['community_activity_end_time'] = communityactivity.end_time
         list.append(dict)
     return list 
+
+#User,CommunityInfo,CommunityActivity,CommunityPost,comment分别查询所有数据,获取他们的id
+def database_all_id():
+    userdata = db.session.query(User).all()
+    list = []
+    for i in userdata:
+        dict = {}
+        dict['user_id'] = i.id
+        list.append(dict)
+    CommunityInfoData = db.session.query(CommunityInfo).all()
+    for i in CommunityInfoData:
+        dict = {}
+        dict['community_id'] = i.id
+        list.append(dict)
+    CommunityActivityData = db.session.query(CommunityActivity).all()
+    for i in CommunityActivityData:
+        dict = {}
+        dict['activity_id'] = i.id
+        list.append(dict)
+    CommunityPostData = db.session.query(CommunityPost).all()
+    for i in CommunityPostData:
+        dict = {}
+        dict['post_id'] = i.id
+        list.append(dict)
+    commentData = db.session.query(comment).all()
+    for i in commentData:
+        dict = {}
+        dict['comment_id'] = i.id
+        list.append(dict)
+    return list
+
+#CommunityInfo和CommunityActivity和CommunityPost分别进行模糊查询
+def communityinfo_activity_post_like_search(text):
+    CommunityInfoData = db.session.query(CommunityInfo).filter(CommunityInfo.name.like('%'+text['text']+'%')).all()
+    CommunityActivityData = db.session.query(CommunityActivity).filter(CommunityActivity.name.like('%'+text['text']+'%')).all()
+    CommunityPostData = db.session.query(CommunityPost).filter(CommunityPost.title.like('%'+text['text']+'%')).all()
+    CommunityInfoDataList = []
+    CommunityActivityDataList = []
+    CommunityPostDataList = []
+    for i in CommunityInfoData:
+        dict = {}
+        dict['id'] = i.id
+        dict['name'] = i.name
+        dict['image'] = base64.b64encode(i.image).decode('utf-8')
+        dict['description'] = i.description
+        dict['number'] = i.number
+        dict['type'] = i.type
+        dict['leader_id'] = i.leader_id
+        dict['leader_name'] = i.leader_name
+        CommunityInfoDataList.append(dict)
+    for i in CommunityActivityData:
+        dict = {}
+        dict['id'] = i.id
+        dict['name'] = i.name
+        dict['content'] = i.content
+        dict['address'] = i.address
+        dict['number'] = i.number
+        dict['cost'] = i.cost
+        dict['image'] = base64.b64encode(i.image).decode('utf-8')
+        dict['start_time'] = i.start_time.strftime('%Y-%m-%d %H:%M:%S')
+        dict['end_time'] = i.end_time.strftime('%Y-%m-%d %H:%M:%S')
+        CommunityActivityDataList.append(dict)
+    for i in CommunityPostData:
+        dict = {}
+        dict['id'] = i.id
+        dict['userid'] = i.user_id
+        dict['username'] = i.username
+        dict['title'] = i.title
+        dict['content'] = i.content
+        dict['image'] = base64.b64encode(i.image).decode('utf-8')
+        dict['like'] = i.like
+        dict['type'] = i.type
+        dict['time'] = i.time.strftime('%Y-%m-%d %H:%M:%S')
+        CommunityPostDataList.append(dict)
+    return {'CommunityInfoDataList':CommunityInfoDataList,'CommunityActivityDataList':CommunityActivityDataList,'CommunityPostDataList':CommunityPostDataList}

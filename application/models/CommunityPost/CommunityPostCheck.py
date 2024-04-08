@@ -58,13 +58,14 @@ def delete_community_post_check(text):
     
 #社团帖子审核表查询
 def search_community_post_check(text):
-    data = CommunityPostCheck.query.filter_by(community_id=text['community_id']).all()
+    data = CommunityPostCheck.query.filter_by(
+        community_id=text['community_id']).all()
     res = []
     for i in data:
-        if i.image is not None:
-            image = base64.b64encode(i.image).decode('utf-8')    
-        else:
-            image = None
+        # if i.image is not None:
+        #     image = base64.b64encode(i.image).decode('utf-8')    
+        # else:
+        #     image = None
         dict = {
             'community_id':i.community_id,
             'user_id':i.user_id,
@@ -72,13 +73,14 @@ def search_community_post_check(text):
             'title':i.title,
             'content':i.content,
             'like':i.like,
-            'image':image,
+            # 'image':image,
             'type':i.type,
             'role':i.role,
             'status':i.status
             }
         res.append(dict)
     return res
+
 
 #社团帖子审核表更新
 def agent_post_check(community_id,title):

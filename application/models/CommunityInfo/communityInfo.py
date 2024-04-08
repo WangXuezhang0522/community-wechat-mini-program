@@ -44,7 +44,7 @@ def add_community_info(text):
         return 'error'
 #社团信息表删除
 def delete_community_info(text):
-    data = CommunityInfo.query.filter_by(name=text['name']).first()
+    data = CommunityInfo.query.filter_by(id=text['id']).first()
     try:
         db.session.delete(data)
         db.session.commit()
@@ -80,10 +80,46 @@ def update_community_info(text):
         return 'error'
 #社团信息表查询
 def search_community_info():
+    #类型：学习交流，体育运动，兴趣爱好，编程算法，科技创新，社会实践，数字网络
     data = CommunityInfo.query.all()
+    type_count = {}
+    list = []
+    
+    for i in data:
+        if i.type not in type_count:
+            type_count[i.type] = 0
+        
+        if type_count[i.type] < 2:
+            if i.image is None:
+                image = None
+            else:
+                image = base64.b64encode(i.image).decode('utf-8')
+            
+            list_dict={
+                'id':i.id,
+                'name':i.name,
+                'introduction':i.description,
+                'number':i.number,
+                'type':i.type,
+                'leader_id':i.leader_id,
+                'leader_name':i.leader_name,
+                'image':image
+            }
+            list.append(list_dict)
+            
+            type_count[i.type] += 1
+            
+        if all(count == 2 for count in type_count.values()):
+            break
+    
+    return list
+
+#指定社团类型查询
+def search_community_info_by_type(text):
+    data = CommunityInfo.query.filter_by(type=text['type']).all()
     list = []
     for i in data:
-        if i.image == None:
+        if i.image is None:
             image = None
         else:
             image = base64.b64encode(i.image).decode('utf-8')
@@ -135,6 +171,28 @@ def search_community_leader_by_user_id(text):
             'type':i.type,
             'leader_id':i.leader_id,
             'leader_name':i.leader_name
+        }
+        list.append(list_dict)
+    return list
+
+#根据社团人数查询人数最多的6个社团
+def search_community_info_by_number():
+    data = CommunityInfo.query.order_by(CommunityInfo.number.desc()).limit(6).all()
+    list = []
+    for i in data:
+        if i.image is None:
+            image = None
+        else:
+            image = base64.b64encode(i.image).decode('utf-8')
+        list_dict={
+            'id':i.id,
+            'name':i.name,
+            'introduction':i.description,
+            'number':i.number,
+            'type':i.type,
+            'leader_id':i.leader_id,
+            'leader_name':i.leader_name,
+            'image':image
         }
         list.append(list_dict)
     return list

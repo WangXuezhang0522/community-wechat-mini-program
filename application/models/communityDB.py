@@ -12,7 +12,7 @@ class User(db.Model):#用户表
     truename = db.Column(db.String(80),nullable=False)
     sex = db.Column(db.String(10),default='外星人')
     tel = db.Column(db.String(120), unique=True)
-    role = db.Column(db.String(80),default='用户')
+    role = db.Column(db.String(80),default='游客')
     avatar = db.Column(db.LargeBinary,nullable=True)
 
     def __repr__(self):
@@ -22,7 +22,7 @@ class CommunityInfo(db.Model):#社团信息表
     __tablename__ = 'community_info'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True)#社团名称
-    description = db.Column(db.String(120))#社团描述
+    description = db.Column(db.String(300))#社团描述
     #社团人数
     number = db.Column(db.Integer)
     #社团类型
@@ -71,7 +71,7 @@ class CommunityActivity(db.Model):#社团活动表
     #活动经费
     cost = db.Column(db.Float)
     #活动内容
-    content = db.Column(db.String(120))
+    content = db.Column(db.String(300))
     #开始时间
     start_time = db.Column(db.DateTime, default=datetime.now())
     #结束时间
@@ -102,7 +102,7 @@ class CommunityPost(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     #社团id
     community_id = db.Column(db.Integer, db.ForeignKey('community_info.id', ondelete='CASCADE'),nullable=False,
-                             default=8)
+                             default=1)
     #用户id
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'),nullable=False)
     #用户名
@@ -110,7 +110,7 @@ class CommunityPost(db.Model):
     #标题
     title = db.Column(db.String(120))
     #内容
-    content = db.Column(db.String(120))
+    content = db.Column(db.String(300))
     #时间
     time = db.Column(db.DateTime, default=datetime.now())
     #点赞数
@@ -186,7 +186,7 @@ class CommunityInfoCheck(db.Model):
     #社团名称
     name = db.Column(db.String(80), unique=True)
     #社团描述
-    description = db.Column(db.String(120))
+    description = db.Column(db.String(300))
     #社团人数
     number = db.Column(db.Integer)
     #社团类型
@@ -225,7 +225,7 @@ class CommunityActivityCheck(db.Model):
     #活动经费
     cost = db.Column(db.Float)
     #活动内容
-    content = db.Column(db.String(120))
+    content = db.Column(db.String(300))
     #开始时间
     start_time = db.Column(db.DateTime, default=datetime.now())
     #结束时间
@@ -273,7 +273,7 @@ class CommunityPostCheck(db.Model):
     #标题
     title = db.Column(db.String(120))
     #内容
-    content = db.Column(db.String(120))
+    content = db.Column(db.String(300))
     #时间
     time = db.Column(db.DateTime, default=datetime.now())
     #点赞数
@@ -301,8 +301,6 @@ class Carousel(db.Model):
     type = db.Column(db.String(80))
     def __repr__(self):
         return '<Carousel id=%r>' % (self.id)
-    
-    
 
 #创建数据库
 

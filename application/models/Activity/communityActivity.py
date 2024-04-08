@@ -44,7 +44,7 @@ def add_community_activity(text):
     
 #社团活动表删除
 def delete_community_activity(text):
-    data = CommunityActivity.query.filter_by(community_id=text['community_id'],name=text['name']).first()
+    data = CommunityActivity.query.filter_by(community_id=text['community_id'],id=text['id']).first()
     try:
         db.session.delete(data)
         db.session.commit()
@@ -85,35 +85,39 @@ def update_community_activity(text):
         return 'error'
     
 #社团活动表查询
-def search_community_activity():
-    data = CommunityActivity.query.order_by(CommunityActivity.start_time.desc()).all()
-    list = []
-    for i in data:
-        if i.image == None:
+def search_community_activity(page, per_page=5):
+    data = CommunityActivity.query.order_by(CommunityActivity.start_time).paginate(page=page, 
+                                                                                          per_page=per_page, 
+                                                                                          error_out=False)
+    result = []
+    for i in data.items:
+        if i.image is None:
             image = None
         else:
             image = base64.b64encode(i.image).decode('utf-8')
-        list_dict={
-            'id':i.id,
-            'community_id':i.community_id,
-            'community_name':i.community_name,
-            'leader_id':i.leader_id,
-            'leader_name':i.leader_name,
-            'name':i.name,
-            'address':i.address,
-            'number':i.number,
-            'cost':i.cost,
-            'content':i.content,
-            'start_time':i.start_time,
-            'end_time':i.end_time,
-            'image':image
+        item = {
+            'id': i.id,
+            'community_id': i.community_id,
+            'community_name': i.community_name,
+            'leader_id': i.leader_id,
+            'leader_name': i.leader_name,
+            'name': i.name,
+            'address': i.address,
+            'number': i.number,
+            'cost': i.cost,
+            'content': i.content,
+            'start_time': i.start_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_time': i.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'image': image
         }
-        list.append(list_dict)
-    return list
+        result.append(item)
+    # print(result[0])
+    return result
+
 
 #按活动名称查询社团活动
 def search_community_activity_by_name(text):
-    data = CommunityActivity.query.filter_by(name=text['name']).first()
+    data = db.session.query(CommunityActivity).filter(CommunityActivity.name.like('%'+text['name']+'%')).first()
     list = []
     if data.image == None:
         image = None
@@ -130,8 +134,8 @@ def search_community_activity_by_name(text):
         'number':data.number,
         'cost':data.cost,
         'content':data.content,
-        'start_time':data.start_time,
-        'end_time':data.end_time,
+        'start_time': data.start_time.strftime('%Y-%m-%d %H:%M:%S'),
+        'end_time': data.end_time.strftime('%Y-%m-%d %H:%M:%S'),
         'image':image
     }
     list.append(list_dict)
