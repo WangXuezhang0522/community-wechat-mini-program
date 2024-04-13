@@ -45,7 +45,7 @@ def add_user(text):
         return {'message':f'注册失败:{e}'}
 #用户表删除
 def delete_user(text):
-    data = User.query.filter_by(username=text['username']).first()
+    data = User.query.filter_by(id=text['id']).first()
     try:
         db.session.delete(data)
         db.session.commit()
@@ -57,17 +57,9 @@ def delete_user(text):
         return 'error'
 #用户表更新
 def update_user(text):
-    data = User.query.filter_by(tel=text['tel'],password=text['password']).first()
+    data = User.query.filter_by(id=text['id']).first()
 
-    data.username = text['username']
-    data.sex = text['sex']
-    
-    image_data = request.files.get('avatar')
-    if image_data:
-        image_bytes = image_data.read()
-    else:
-        image_bytes = data.avatar
-    data.avatar = image_bytes
+    data.role = text['role']
     try:
         db.session.commit()
         db.session.close()
@@ -122,3 +114,16 @@ def get_all_user():
         }
         res.append(dict)
     return res
+
+#重置密码
+def reset_password(text):
+    data = User.query.filter_by(id=text['id']).first()
+    data.password = 123456
+    try:
+        db.session.commit()
+        db.session.close()
+        return 'success'
+    except:
+        db.session.rollback()
+        db.session.close()
+        return 'error'

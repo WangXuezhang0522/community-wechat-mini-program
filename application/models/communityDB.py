@@ -169,11 +169,12 @@ class UserCollect(db.Model):
 #管理员表
 class Admin(db.Model):
     __tablename__ = 'admin'
-    #管理员id | 用户名 | 密码 | 审核码
+    #管理员id | 用户名 | 密码 | 审核码 |status
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80),unique=True, nullable=False)
     password = db.Column(db.String(120),nullable=False)
     auditCode = db.Column(db.String(80),nullable=False)
+    status = db.Column(db.String(80),default='正常')
 
     def __repr__(self):
         return '<Admin id=%r, username=%r>' % (self.id, self.username)

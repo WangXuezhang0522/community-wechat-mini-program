@@ -1,4 +1,4 @@
-from ..communityDB import db, CommunityPost,User,UserCollect,comment
+from ..communityDB import db, CommunityPost,User,UserCollect,comment,CommunityInfo
 from flask import request
 import base64
 from PIL import Image
@@ -40,12 +40,12 @@ def add_community_post(text):
     
 #交流贴表删除
 def delete_community_post(text):
-    data = CommunityPost.query.filter_by(title=text['title']).first()
+    data = CommunityPost.query.filter_by(id=text['id']).first()
     try:
         db.session.delete(data)
         db.session.commit()
         db.session.close()
-        return 'success'
+        return {'masssage':'success'}
     except:
         db.session.rollback()
         db.session.close()
@@ -117,17 +117,25 @@ def search_all_community_post_noimage(text):
     data = CommunityPost.query.all()
     list = []
     for i in data:
+        community_name = CommunityInfo.query.filter_by(id=i.community_id).first().name
+        #获取评论数
+        commentCount = comment.query.filter_by(post_id=i.id).count()
+        #获取收藏数
+        collectCount = UserCollect.query.filter_by(post_id=i.id).count()
         dict = {
             'id':i.id,
             'community_id':i.community_id,
+            'community_name':community_name,
             'user_id':i.user_id,
             'username':i.username,
             'title':i.title,
             'content':i.content,
-            'like':i.like,
+            'likeCount':i.like,
             'type':i.type,
             'role':i.role,
-            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S'),
+            'commentCount':commentCount,
+            'collectCount':collectCount
         }
         list.append(dict)
     return list
@@ -261,3 +269,36 @@ def like_community_post(text):
         db.session.rollback()
         db.session.close()
         return 'error'
+    
+#根据类型查询帖子-不分页
+def search_community_post_by_type(text,page=1,per_page=2):
+    data = CommunityPost.query.filter_by(type=text['type']).order_by(
+        CommunityPost.time.desc()).paginate(
+            page=page, per_page=per_page,error_out = False)
+    list = []
+    for i in data:
+        if i.image == None:
+            image = None
+        else:
+            image = base64.b64encode(i.image).decode('utf-8')
+        user = User.query.filter_by(id=i.user_id).first()
+        if user.avatar == None:
+            avatar = None
+        else:
+            avatar = base64.b64encode(user.avatar).decode('utf-8')
+        list_dict = {
+            'id':i.id,
+            'community_id':i.community_id,
+            'user_id':i.user_id,
+            'username':i.username,
+            'avatar':avatar,
+            'title':i.title,
+            'content':i.content,
+            'like':i.like,
+            'image':image,
+            'type':i.type,
+            'role':i.role,
+            'time':i.time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        list.append(list_dict)
+    return list

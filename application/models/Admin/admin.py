@@ -1,4 +1,4 @@
-from ..communityDB import db,Admin,User
+from ..communityDB import db,Admin,User,CommunityMember
 import base64
 
 
@@ -44,6 +44,8 @@ def delete_admin(text):
 #管理员表查询
 def search_admin(text):
     data = Admin.query.filter_by(username=text['username'],password=text['password']).first()
+    if data.status == '封禁':
+        return {'message':'用户已被封禁'}
     if data:
         dict = {
             'username':data.username,
@@ -57,8 +59,8 @@ def search_admin(text):
 
 #管理员表更新
 def update_admin(text):
-    data = Admin.query.filter_by(username=text['username']).first()
-    data.password = text['password']
+    data = Admin.query.filter_by(id=text['id']).first()
+    data.status = text['status']
     try:
         db.session.commit()
         db.session.close()
@@ -83,13 +85,38 @@ def get_all_admin_and_user():
     userdata = User.query.all()
     userlist = []
     for i in userdata:
+        
+        communityMember = CommunityMember.query.filter_by(id=i.id).first()
+        if communityMember:
+            communityrole = communityMember.role
+        else:
+            communityrole = '游客'
+        if i.role == '封禁':
+            status = '封禁'
+        else:
+            status = '正常'
         dict = {
-            'id':i.id,
-            'username':i.username,
-            'password':i.password,
-            'truename':i.truename,
-            'sex':i.sex,
-            'tel':i.tel
+                'id':i.id,
+                'username':i.username,
+                'password':i.password,
+                'truename':i.truename,
+                'sex':i.sex,
+                'tel':i.tel,
+                'role':communityrole,
+                'status':status,
         }
         userlist.append(dict)
     return {'admin':list,'user':userlist}
+
+#重置密码
+def reset_passwor_admin(text):
+    data = Admin.query.filter_by(id=text['id']).first()
+    data.password = 'q123456'
+    try:
+        db.session.commit()
+        db.session.close()
+        return 'success'
+    except:
+        db.session.rollback()
+        db.session.close()
+        return 'error'

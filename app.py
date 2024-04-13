@@ -8,6 +8,7 @@ from application.models import(
                 delete_user,
                 search_user, 
                 update_user,
+                reset_password,
                 get_all_user)
 from application.models import (add_community_info, 
                             delete_community_info, 
@@ -23,6 +24,8 @@ from application.models import (add_community_activity,
                                   search_community_activity, 
                                   search_community_activity_by_name,
                                   search_all_community_activity_noimage,
+                                  search_community_activity_by_id,
+                                  update_community_activity_by_id,
                                   update_community_activity)
 from application.models import (add_community_member, 
                               delete_community_member,
@@ -38,6 +41,7 @@ from application.models import (add_community_post,
                                 search_community_post_by_user_id,
                                 search_community_post_by_community_id,
                                 search_all_community_post_noimage,
+                                search_community_post_by_type,
                                  like_community_post)
 from application.models import (add_comment,
                                 delete_comment,
@@ -56,6 +60,7 @@ from application.models import (
 from application.models import (add_community_activity_check,
                                               delete_community_activity_check,
                                               search_community_activity_check,
+                                              search_community_activity_check_mini,
                                               update_community_activity_check)
 from application.models import (add_community_activity_member,
                                                       delete_community_activity_member,
@@ -65,7 +70,9 @@ from application.models import (add_community_activity_member,
 from application.models import (add_admin,
                           delete_admin,
                           search_admin,
-                          update_admin,get_all_admin_and_user)
+                          reset_passwor_admin,
+                          update_admin,
+                          get_all_admin_and_user)
 from application.models import (add_community_info_check,
                                               delete_community_info_check,
                                               search_community_info_check,
@@ -77,6 +84,7 @@ from application.models import (add_community_member_check,
 from application.models import (add_community_post_check,
                                               delete_community_post_check,
                                               search_community_post_check,
+                                              search_community_post_check_mini,
                                               update_community_post_check)
 from application.models import (add_user_collect,
                                   delete_user_collect,
@@ -695,6 +703,58 @@ def allcommunitypostnoimage():
     text = request.form
     res=search_all_community_post_noimage(text)
     return res
+
+#社团活动审核表查询-小程序端
+@app.route('/search_community_activity_check_mini',methods=['POST'])
+def searchcommunityactivitycheckmini():
+    text = request.form
+    res=search_community_activity_check_mini(text)
+    return res
+
+#社团帖子审核表查询-小程序端
+@app.route('/search_community_post_check_mini',methods=['POST'])
+def searchcommunitypostcheckmini():
+    text = request.form
+    res=search_community_post_check_mini(text)
+    return res
+
+#重置密码
+@app.route('/reset_password',methods=['POST'])
+def resetpassword():
+    text = request.form
+    res=reset_password(text)
+    return res
+
+#管理员重置密码
+@app.route('/reset_password_admin',methods=['POST'])
+def resetpasswordadmin():
+    text = request.form
+    res=reset_passwor_admin(text)
+    return res
+
+#按照id查询社团活动 
+@app.route('/search_community_activity_by_id',methods=['POST'])
+def searchcommunityactivitybyid():
+    text = request.form
+    res=search_community_activity_by_id(text)
+    return res
+
+#按照id更新社团活动
+@app.route('/update_community_activity_by_id',methods=['POST'])
+def updatecommunityactivitybyid():
+    text = request.form
+    res=update_community_activity_by_id(text)
+    return res
+
+
+#根据类型查找帖子
+@app.route('/search_community_post_by_type',methods=['POST'])
+def searchcommunitypostbytype():
+    text = request.form
+    page = int(text['page'])
+    res=search_community_post_by_type(text,page=page)
+    return res
+
 
 if __name__ == '__main__':
     app.run(debug=True)

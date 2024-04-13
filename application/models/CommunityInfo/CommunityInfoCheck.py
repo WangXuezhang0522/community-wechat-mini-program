@@ -61,6 +61,7 @@ def search_community_info_check(text):
         #     image = None
         if i.status != '审核通过':
             dict = {
+                'id':i.id,
                 'name':i.name,
                 'description':i.description,
                 # 'image':image,

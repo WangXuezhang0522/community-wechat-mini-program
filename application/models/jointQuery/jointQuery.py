@@ -10,6 +10,8 @@ def user_community_member(text):
     if isUser == None:#用户不存在
         return '用户不存在'
     else:#用户存在
+        if isUser.role == '封禁':
+            return {'message':'用户已被封禁'}
         data = db.session.query(
                                 User,
                                 CommunityMember
