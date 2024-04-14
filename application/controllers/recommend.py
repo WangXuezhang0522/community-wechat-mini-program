@@ -13,7 +13,7 @@ from .extraction import extract_community_name
 from ..models import search_community_info_by_name
 
 
-PDF_NAME = 'application\static\社团信息库.pdf'
+PDF_NAME = 'application\static\\base.pdf'
 docs = PyMuPDFLoader(PDF_NAME).load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 split_docs = text_splitter.split_documents(docs)
