@@ -7,3 +7,6 @@ langchain_openai==0.1.1
 Pillow==10.3.0
 python-dotenv==1.0.1
 SQLAlchemy==2.0.23
+pymupdf
+chromadb
+pymysql
