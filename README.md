@@ -7,7 +7,7 @@
 - 微信原生小程序
 - React
 ## 效果图
-<img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%871.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%872.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%873.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%874.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%875.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/picture-Repository/blob/main/image/%E5%9B%BE%E7%89%876.png?raw=true">
+<img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%871.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%872.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%873.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%874.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%875.png?raw=true"><img height="200" src="https://github.com/WangXuezhang0522/image/blob/main/%E5%9B%BE%E5%BA%8A/%E5%9B%BE%E7%89%876.png?raw=true">
 
 ## 主要功能实现
 - 智能推荐
