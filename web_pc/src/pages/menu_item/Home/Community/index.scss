@@ -1,0 +1,27 @@
+.echarts-community{
+    text-align: center;
+    width: 700px;
+    height: 400px;
+  h1{
+    font-size: 26px;
+    color: aliceblue;
+  }
+  .echarts-box{
+    display: flex;
+    justify-content: space-between;
+    padding-top: -20px;
+    width: 700px;
+    height: 400px;
+    .first{
+      margin-top: -40px;
+        width: 300px;
+        height: 400px;
+    }
+    .second{
+      margin-top: 0px;
+        width: 360px;
+        height: 400px;
+    }
+  }
+  
+}

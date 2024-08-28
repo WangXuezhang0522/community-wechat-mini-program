@@ -1,0 +1,47 @@
+.menu{
+    width: 240px;
+    
+    a{
+        text-decoration: none;
+    }
+    .sub-nav{
+        width: 240px;
+        background-color: rgb(255, 255, 255);
+        .sub-nav-item{
+            display: flex;
+            align-items: center;
+            width: 99%;
+            height: 50px;
+            border-radius: 12px;
+            padding-left: 38px;
+            // background-color: aqua;
+            img{
+                width: 20px;
+                height: 20px;
+            }
+            .item-name{
+                display: flex;
+                align-items: center;
+                height: 100%;
+                font-size: 13px;
+                color: #969393;
+                margin-left: 10px;
+                letter-spacing: 0.5px;
+                font-weight: 550;
+            }
+        }
+        .sub-nav-item:hover{
+            cursor: pointer;
+            background-color: rgb(230, 244, 255);
+            .item-name{
+                color: rgb(6, 89, 191);
+            }
+        }
+        .active{
+            background-color: rgb(230, 244, 255);
+            .item-name{
+                color: rgb(6, 89, 191);
+            }
+        }
+    }
+}

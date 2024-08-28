@@ -1,0 +1,135 @@
+.layout{
+    position: relative;
+    width: 100%;
+    height: 960px;
+  
+    box-sizing: border-box;
+    background-color: rgb(251, 251, 251);
+
+    .header{
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 56px;
+        background: linear-gradient(to left, #2459cb 0%, #0d023dee 100%);
+        // logo区域
+        h1{
+           line-height: 60px;
+            width: 240px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 16px;
+            letter-spacing: 0.7px;
+        }
+        // 导航栏
+        .nav{
+            display: flex;
+            align-items: center;
+            width: 740px;
+            height: 100%;
+            a{
+                width: 25%;
+                height: 100%;
+                display: block;
+                text-decoration: none;
+            }
+            a:nth-child(1){
+                // padding-left: 10px;
+                width: 22%;
+
+            }
+            a:nth-child(2){
+                // padding-left: 10px;
+                width: 20%;
+
+            }
+            // background-color: #265ddd;
+            .nav-item{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                color: #ffffff;
+                // padding-left: 20px;
+                // border-radius: 4px;s
+
+                // background-color: pink;
+                img{
+                    width: 16px;
+                    height: 16px;
+                    // margin-right: 10px;
+                }
+                .audit-img{
+                    width: 20px;
+                    height: 20px;
+                }
+                .nav-name{
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    letter-spacing: 0.2px;
+                    
+                    margin-left: 10px;
+                }
+            }
+            .nav-item:hover{
+                cursor: pointer;
+                background-color: rgb(23, 113, 240);
+            }
+   
+            
+        }
+        // 搜索框
+        .search{
+            position: absolute;
+            right: 16%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 240px;
+            height: 60%;
+            background-color: #ffffff;
+            border-radius: 9px;
+            input{
+                width: 90%;
+                height: 60%;
+                outline: none;
+                border: none;
+            }
+            input::-webkit-input-placeholder{
+                color: #7e7a7ab5;
+                letter-spacing: 0.5px;
+            }
+            
+        }
+        .user-center{
+            display: flex;
+            align-items: center;
+            position: absolute;
+            width: 220px;
+            height: 100%;
+            right: 1%;
+            
+            img{
+                width: 30px;
+                height: 30px;
+                margin-left: 40px;
+            }
+            .user-name{
+                display: flex;
+                align-items: center;
+                color: #e7e5e5;
+                margin-left: 5px;
+            }
+            #exit{
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                margin-left: 20px;
+            }
+        }
+    }
+
+}

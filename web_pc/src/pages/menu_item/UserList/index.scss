@@ -1,0 +1,36 @@
+
+.user-list{
+    position: absolute;
+    top: 8%;
+    left: 18%;
+
+    h1{
+
+        color: #979494;
+        height: 40px;
+        span{
+            color: #000;
+        }
+    }
+    .main{
+        width: 1240px;
+        height: 600px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        .banned{
+            cursor: pointer;
+            color: #cb1313;
+        }
+        .reset-password{
+            cursor: pointer;
+            color: #0367db;
+        }
+        .delete{
+            cursor: pointer;
+            color: #068e5c;
+        }
+    }
+    .trueName{
+        color: #f07400;
+    }
+}
